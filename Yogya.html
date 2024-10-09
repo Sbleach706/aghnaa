@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ban">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wisata Yogyakarta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            background-color: #ffffff; /* White background */
+            color: #000000; /* Black text */
+        }
+
+        .banner {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+
+        header {
+            background: #000000; /* Black color */
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            color: #ffffff; /* White text */
+        }
+
+        nav {
+            margin: 20px 0;
+            background: #333333; /* Dark gray */
+            border-radius: 5px;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #ffffff; /* White text */
+            padding: 8px 15px;
+            transition: background 0.3s, color 0.3s;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            background: #555555; /* Lighter gray for hover effect */
+            color: white;
+        }
+
+        section {
+            margin: 20px auto;
+            padding: 20px;
+            background: #f0f0f0; /* Light gray for sections */
+            border: 1px solid #cccccc; /* Light gray border */
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+        }
+
+        section h2 {
+            margin-bottom: 15px;
+            border-bottom: 2px solid #000000; /* Black color for headings */
+            padding-bottom: 5px;
+            color: #000000; /* Black color for headings */
+        }
+
+        section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 10px 0;
+            transition: transform 0.3s;
+        }
+
+        section img:hover {
+            transform: scale(1.05);
+        }
+
+        .destinasi {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background: #000000; /* Black color */
+            color: #ffffff; /* White text */
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        #map {
+            height: 450px;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Wisata Yogyakarta</h1>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#tentang">Tentang Yogyakarta</a></li>
+            <li><a href="#destinasi">Destinasi Populer</a></li>
+            <li><a href="#peta">Peta Interaktif</a></li>
+        </ul>
+    </nav>
+
+    <div class="banner">
+        <img src="yogya.jpeg" alt="Banner Wisata Yogyakarta"> <!-- Ganti dengan gambar banner Yogyakarta -->
+    </div>
+
+    <section id="tentang">
+        <h2>Yogyakarta</h2>
+        <img src="jogja.jpeg" alt="Panorama Yogyakarta">
+        <p>Yogyakarta adalah sebuah kota budaya yang terletak di Indonesia. Dikenal karena keindahan budaya dan sejarahnya, Yogyakarta menawarkan berbagai tempat wisata seperti Candi Borobudur dan Prambanan yang menakjubkan. Kota ini juga terkenal dengan kerajinan tangan, seni, dan kuliner yang khas. Yogyakarta menjadi tujuan utama bagi para wisatawan yang ingin menjelajahi warisan budaya yang kaya, termasuk tari tradisional dan keraton yang masih terjaga hingga kini.</p>
+    </section>
+
+    <section id="destinasi">
+        <h2>Destinasi Populer</h2>
+        <div class="destinasi">
+            <h3>Malioboro</h3>
+            <img src="malio.jpeg" alt="Malioboro">
+            <p>Malioboro adalah sebuah jalan yang menjadi pusat wisata belanja dan kuliner di Yogyakarta. Tempat ini selalu ramai oleh wisatawan, baik lokal maupun mancanegara. Di sini, pengunjung dapat menemukan berbagai oleh-oleh khas Yogyakarta, mencicipi jajanan tradisional, dan menikmati suasana malam yang hidup dengan berbagai pertunjukan seni jalanan.</p>
+        </div>
+        <div class="destinasi">
+            <h3>Candi Prambanan</h3>
+            <img src="pram.jpeg" alt="Candi Prambanan">
+            <p>Candi Prambanan adalah kompleks candi Hindu terbesar di Indonesia yang terkenal dengan keindahan arsitektur dan reliefnya yang rumit. Candi ini dikhususkan untuk Trimurti: Brahma, Wisnu, dan Siwa. Di sini, wisatawan dapat mengagumi keindahan candi, menikmati pertunjukan tari Ramayana yang diadakan setiap malam, dan belajar tentang sejarah Hindu di Indonesia.</p>
+        </div>
+    </section>
+
+    <section id="peta">
+        <h2>Peta Interaktif</h2>
+        <input id="searchInput" type="text" placeholder="Cari tempat di Yogyakarta..." style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        <div id="map"></div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Wisata Yogyakarta</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<script>
+    const map = L.map('map').setView([-7.7956, 110.3695], 10); // Coordinates for Yogyakarta
+
+    const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    const geocoder = L.Control.geocoder({
+        defaultMarkGeocode: false
+    })
+    .on('markgeocode', function(e) {
+        const latlng = e.geocode.center;
+        L.marker(latlng).addTo(map)
+            .bindPopup(e.geocode.name)
+            .openPopup();
+        map.setView(latlng, 15);
+    })
+    .addTo(map);
+
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            const query = searchInput.value;
+            if (query) {
+                geocoder.geocode(query, function(results) {
+                    if (results.length > 0) {
+                        geocoder.fire('markgeocode', { geocode: results[0] });
+                    } else {
+                        alert('Tempat tidak ditemukan.');
+                    }
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>

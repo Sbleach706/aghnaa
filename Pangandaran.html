@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ban">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wisata Pangandaran</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            background-color: #ffffff; /* White background */
+            color: #000000; /* Black text */
+        }
+
+        .banner {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+
+        header {
+            background: #000000; /* Black color */
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            color: #ffffff; /* White text */
+        }
+
+        nav {
+            margin: 20px 0;
+            background: #333333; /* Dark gray */
+            border-radius: 5px;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #ffffff; /* White text */
+            padding: 8px 15px;
+            transition: background 0.3s, color 0.3s;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            background: #555555; /* Lighter gray for hover effect */
+            color: white;
+        }
+
+        section {
+            margin: 20px auto;
+            padding: 20px;
+            background: #f0f0f0; /* Light gray for sections */
+            border: 1px solid #cccccc; /* Light gray border */
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+        }
+
+        section h2 {
+            margin-bottom: 15px;
+            border-bottom: 2px solid #000000; /* Black color for headings */
+            padding-bottom: 5px;
+            color: #000000; /* Black color for headings */
+        }
+
+        section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 10px 0;
+            transition: transform 0.3s;
+        }
+
+        section img:hover {
+            transform: scale(1.05);
+        }
+
+        .destinasi {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background: #000000; /* Black color */
+            color: #ffffff; /* White text */
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        #map {
+            height: 450px;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Wisata Pangandaran</h1>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#tentang">Tentang Pangandaran</a></li>
+            <li><a href="#destinasi">Destinasi Populer</a></li>
+            <li><a href="#peta">Peta Interaktif</a></li>
+        </ul>
+    </nav>
+
+    <div class="banner">
+        <img src="pangandaran.jpeg" alt="Banner Wisata Pangandaran"> <!-- Ganti dengan gambar banner Pangandaran -->
+    </div>
+
+    <section id="tentang">
+        <h2>Pangandaran</h2>
+        <img src="pangandaran1.jpeg" alt="Panorama Pangandaran">
+        <p>Pangandaran adalah sebuah kabupaten di Jawa Barat yang terkenal dengan keindahan pantainya dan pesona alamnya yang luar biasa. Dikenal sebagai tujuan wisata bahari, Pangandaran menawarkan berbagai aktivitas seperti berenang, snorkeling, dan menyelam. Tempat ini juga kaya akan budaya lokal dan kuliner laut yang lezat, menjadikannya destinasi favorit bagi wisatawan yang ingin menikmati suasana pantai yang asri dan santai.</p>
+    </section>
+
+    <section id="destinasi">
+        <h2>Destinasi Populer</h2>
+        <div class="destinasi">
+            <h3>Pangandaran Sunset</h3>
+            <img src="psunset.jpeg" alt="Pangandaran Sunset">
+            <p>Pangandaran Sunset adalah tempat utama untuk menikmati pemandangan matahari terbenam yang memukau di kawasan ini. Aktivitas seperti berselancar, banana boat, serta menikmati suasana pantai menjadi daya tarik tersendiri. Pangandaran Sunset adalah destinasi populer bagi wisatawan domestik maupun mancanegara yang ingin menikmati keindahan sunset yang menawan di tepi pantai.</p>
+        </div>
+        <div class="destinasi">
+            <h3>Green Canyon</h3>
+            <img src="canyon.jpeg" alt="Green Canyon Pangandaran">
+            <p>Green Canyon Pangandaran adalah salah satu objek wisata alam yang menakjubkan, dengan sungai yang berkelok-kelok di antara tebing tinggi. Tempat ini terkenal dengan airnya yang jernih berwarna kehijauan dan stalaktit yang menggantung di dinding tebing. Pengunjung dapat menjelajahi keindahan alam ini dengan perahu atau berenang di sungai yang tenang.</p>
+        </div>
+    </section>
+
+    <section id="peta">
+        <h2>Peta Interaktif</h2>
+        <input id="searchInput" type="text" placeholder="Cari tempat di Pangandaran..." style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        <div id="map"></div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Wisata Pangandaran</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script>
+        const map = L.map('map').setView([-7.6158, 108.6554], 10); // Coordinates for Pangandaran
+
+        const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        const geocoder = L.Control.geocoder({
+            defaultMarkGeocode: false
+        })
+        .on('markgeocode', function(e) {
+            const latlng = e.geocode.center;
+            L.marker(latlng).addTo(map)
+                .bindPopup(e.geocode.name)
+                .openPopup();
+            map.setView(latlng, 15);
+        })
+        .addTo(map);
+
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = searchInput.value;
+                if (query) {
+                    geocoder.geocode(query, function(results) {
+                        if (results.length > 0) {
+                            geocoder.fire('markgeocode', { geocode: results[0] });
+                        } else {
+                            alert('Tempat tidak ditemukan.');
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

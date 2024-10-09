@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ban">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wisata Raja Ampat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            background-color: #ffffff; /* White background */
+            color: #000000; /* Black text */
+        }
+
+        .banner {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+
+        header {
+            background: #000000; /* Black color */
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            color: #ffffff; /* White text */
+        }
+
+        nav {
+            margin: 20px 0;
+            background: #333333; /* Dark gray */
+            border-radius: 5px;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #ffffff; /* White text */
+            padding: 8px 15px;
+            transition: background 0.3s, color 0.3s;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            background: #555555; /* Lighter gray for hover effect */
+            color: white;
+        }
+
+        section {
+            margin: 20px auto;
+            padding: 20px;
+            background: #f0f0f0; /* Light gray for sections */
+            border: 1px solid #cccccc; /* Light gray border */
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+        }
+
+        section h2 {
+            margin-bottom: 15px;
+            border-bottom: 2px solid #000000; /* Black color for headings */
+            padding-bottom: 5px;
+            color: #000000; /* Black color for headings */
+        }
+
+        section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 10px 0;
+            transition: transform 0.3s;
+        }
+
+        section img:hover {
+            transform: scale(1.05);
+        }
+
+        .destinasi {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background: #000000; /* Black color */
+            color: #ffffff; /* White text */
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        #map {
+            height: 450px;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Wisata Raja Ampat</h1>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#tentang">Tentang Raja Ampat</a></li>
+            <li><a href="#destinasi">Destinasi Populer</a></li>
+            <li><a href="#peta">Peta Interaktif</a></li>
+        </ul>
+    </nav>
+
+    <div class="banner">
+        <img src="raja.jpeg" alt="Banner Wisata Raja Ampat"> <!-- Ganti dengan gambar banner Raja Ampat -->
+    </div>
+
+    <section id="tentang">
+        <h2>Raja Ampat</h2>
+        <img src="ampat.jpeg" alt="Panorama Raja Ampat">
+        <p>Raja Ampat adalah sebuah kepulauan yang terletak di Papua Barat, Indonesia. Dikenal karena keindahan alamnya yang menakjubkan, Raja Ampat menawarkan pemandangan laut yang jernih, pulau-pulau karang yang indah, dan kekayaan bawah laut yang luar biasa. Tempat ini menjadi tujuan utama bagi para penyelam dan pencinta alam yang ingin menjelajahi keanekaragaman hayati yang kaya, termasuk terumbu karang yang spektakuler dan berbagai spesies ikan yang berwarna-warni. Selain keindahan alam, Raja Ampat juga kaya akan budaya lokal dan tradisi yang masih terjaga hingga kini.</p>
+    </section>
+
+    <section id="destinasi">
+        <h2>Destinasi Populer</h2>
+        <div class="destinasi">
+            <h3>Wayag</h3>
+            <img src="wayag.jpeg" alt="Wayag">
+            <p>Wayag adalah salah satu tempat paling ikonik di Raja Ampat, terkenal dengan pemandangan pulau-pulau kecil yang bertebaran di lautan biru. Dikenal sebagai surga bagi para fotografer, Wayag menawarkan panorama yang menakjubkan dengan latar belakang pegunungan karang. Wisatawan dapat melakukan kegiatan seperti snorkeling, diving, atau sekadar berlayar menikmati keindahan alam. Keindahan alam yang spektakuler di sini menjadikannya salah satu destinasi paling dicari di Raja Ampat.</p>
+        </div>
+        <div class="destinasi">
+            <h3>Misool</h3>
+            <img src="misool.jpeg" alt="Misool">
+            <p>Misool adalah salah satu pulau terbesar di Raja Ampat dan terkenal dengan keindahan terumbu karangnya. Tempat ini menawarkan banyak spot menyelam yang menakjubkan dengan keanekaragaman hayati yang kaya. Misool juga memiliki pantai-pantai yang tenang dan hutan tropis yang lebat, menjadikannya tempat yang ideal untuk bersantai dan menikmati alam. Di sini, wisatawan dapat menemukan banyak gua dan lukisan prasejarah yang menarik untuk dijelajahi.</p>
+        </div>
+    </section>
+
+    <section id="peta">
+        <h2>Peta Interaktif</h2>
+        <input id="searchInput" type="text" placeholder="Cari tempat di Raja Ampat..." style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        <div id="map"></div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Wisata Raja Ampat</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script>
+        const map = L.map('map').setView([-0.2379, 130.5838], 10); // Coordinates for Raja Ampat
+
+        const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        const geocoder = L.Control.geocoder({
+            defaultMarkGeocode: false
+        })
+        .on('markgeocode', function(e) {
+            const latlng = e.geocode.center;
+            L.marker(latlng).addTo(map)
+                .bindPopup(e.geocode.name)
+                .openPopup();
+            map.setView(latlng, 15);
+        })
+        .addTo(map);
+
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = searchInput.value;
+                if (query) {
+                    geocoder.geocode(query, function(results) {
+                        if (results.length > 0) {
+                            geocoder.fire('markgeocode', { geocode: results[0] });
+                        } else {
+                            alert('Tempat tidak ditemukan.');
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

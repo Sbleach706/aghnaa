@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wisata Labuan Bajo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <style>
+        /* Same CSS styles as the original */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; line-height: 1.6; background-color: #ffffff; color: #000000; }
+        .banner { position: relative; width: 100%; height: 600px; overflow: hidden; }
+        .banner img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7); }
+        header { background: #000000; padding: 20px 0; text-align: center; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); color: #ffffff; }
+        nav { margin: 20px 0; background: #333333; border-radius: 5px; padding: 10px 0; }
+        nav ul { list-style: none; display: flex; justify-content: center; padding: 0; }
+        nav ul li { margin: 0 15px; }
+        nav ul li a { text-decoration: none; color: #ffffff; padding: 8px 15px; transition: background 0.3s, color 0.3s; border-radius: 5px; }
+        nav ul li a:hover { background: #555555; color: white; }
+        section { margin: 20px auto; padding: 20px; background: #f0f0f0; border: 1px solid #cccccc; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); max-width: 800px; }
+        section h2 { margin-bottom: 15px; border-bottom: 2px solid #000000; padding-bottom: 5px; color: #000000; }
+        section img { max-width: 100%; height: auto; border-radius: 10px; margin: 10px 0; transition: transform 0.3s; }
+        section img:hover { transform: scale(1.05); }
+        .destinasi { display: flex; flex-direction: column; margin-bottom: 20px; }
+        footer { text-align: center; padding: 20px 0; background: #000000; color: #ffffff; position: relative; bottom: 0; width: 100%; box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); }
+        #map { height: 450px; width: 100%; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); margin-bottom: 20px; }
+        @media (max-width: 600px) { nav ul { flex-direction: column; } nav ul li { margin: 10px 0; } section { padding: 15px; } }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Wisata Lombok</h1>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#tentang">Tentang Lombok</a></li>
+            <li><a href="#destinasi">Destinasi Populer</a></li>
+            <li><a href="#peta">Peta Interaktif</a></li>
+        </ul>
+    </nav>
+
+    <div class="banner">
+        <img src="lombok.jpeg" alt="Banner Wisata Lombok"> <!-- Ganti dengan gambar banner Lombok -->
+    </div>
+
+    <section id="tentang">
+        <h2>Lombok</h2>
+        <img src="lombok1.jpg" alt="Panorama Lombok">
+        <p>Lombok adalah sebuah pulau yang terletak di Nusa Tenggara Barat, Indonesia, dan terkenal dengan pantai-pantainya yang indah, air terjun yang menakjubkan, serta pegunungan yang spektakuler. Gunung Rinjani, salah satu gunung tertinggi di Indonesia, menjadi daya tarik utama bagi para pendaki. Selain itu, pulau-pulau Gili di sekitar Lombok, seperti Gili Trawangan, Gili Air, dan Gili Meno, menawarkan pengalaman snorkeling dan diving yang luar biasa dengan kehidupan laut yang berwarna-warni.</p>
+    </section>
+
+    <section id="destinasi">
+        <h1>Destinasi Populer</h1>
+        <div class="destinasi">
+            <h2>Gunung Rinjani</h2>
+            <img src="rinjani.jpeg" alt="Gunung Rinjani">
+            <p>Gunung Rinjani merupakan bagian dari Taman Nasional Gunung Rinjani, yang menjadi tujuan favorit bagi para pendaki, pecinta alam, dan wisatawan lokal maupun internasional. Pendakian Gunung Rinjani cukup menantang dengan rute yang panjang dan medan yang bervariasi, tetapi pemandangan dari puncaknya menawarkan panorama menakjubkan berupa kawah besar, danau kawah, serta pemandangan Pulau Lombok, Bali, dan Sumbawa dari kejauhan.</p>
+        </div>
+        <div class="destinasi">
+            <h2>Gili Trawangan</h2>
+            <img src="gili.jpeg" alt="Gili Trawangan">
+            <p>Pulau ini terkenal dengan keindahan pantainya yang berpasir putih dan air lautnya yang jernih, menjadikannya destinasi wisata yang populer.Di Gili Trawangan, pengunjung dapat menikmati berbagai aktivitas seperti snorkeling dan diving, dengan terumbu karang yang kaya akan kehidupan laut. Suasana di pulau ini sangat santai, karena bebas dari kendaraan bermotor transportasi dilakukan dengan sepeda, cidomo (delman tradisional), atau berjalan kaki.</p>
+        </div>
+    </section>
+
+    <section id="peta">
+        <h2>Peta Interaktif</h2>
+        <input id="searchInput" type="text" placeholder="Cari tempat di Lombok..." style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        <div id="map"></div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Wisata Lombok</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script>
+        const map = L.map('map').setView([-8.652, 116.3245], 10); // Koordinat Lombok
+
+        const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        const geocoder = L.Control.geocoder({
+            defaultMarkGeocode: false
+        })
+        .on('markgeocode', function(e) {
+            const latlng = e.geocode.center;
+            L.marker(latlng).addTo(map)
+                .bindPopup(e.geocode.name)
+                .openPopup();
+            map.setView(latlng, 15);
+        })
+        .addTo(map);
+
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = searchInput.value;
+                if (query) {
+                    geocoder.geocode(query, function(results) {
+                        if (results.length > 0) {
+                            geocoder.fire('markgeocode', { geocode: results[0] });
+                        } else {
+                            alert('Tempat tidak ditemukan.');
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

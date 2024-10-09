@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wisata Jakarta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <style>
+        /* CSS Styles tetap sama seperti pada versi Bandung */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            background-color: #ffffff; /* White background */
+            color: #000000; /* Black text */
+        }
+
+        .banner {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+
+        header {
+            background: #000000;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+        }
+
+        nav {
+            margin: 20px 0;
+            background: #333333;
+            border-radius: 5px;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #ffffff;
+            padding: 8px 15px;
+            transition: background 0.3s, color 0.3s;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            background: #555555;
+            color: white;
+        }
+
+        section {
+            margin: 20px auto;
+            padding: 20px;
+            background: #f0f0f0;
+            border: 1px solid #cccccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+        }
+
+        section h2 {
+            margin-bottom: 15px;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 5px;
+            color: #000000;
+        }
+
+        section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 10px 0;
+            transition: transform 0.3s;
+        }
+
+        section img:hover {
+            transform: scale(1.05);
+        }
+
+        .destinasi {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background: #000000;
+            color: #ffffff;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        #map {
+            height: 450px;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Wisata Jakarta</h1>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#tentang">Tentang Jakarta</a></li>
+            <li><a href="#destinasi">Destinasi Populer</a></li>
+            <li><a href="#peta">Peta Interaktif</a></li>
+        </ul>
+    </nav>
+
+    <div class="banner">
+        <img src="jakarta.jpeg" alt="Banner Wisata Jakarta"> <!-- Ganti dengan gambar banner Jakarta -->
+    </div>
+
+    <section id="tentang">
+        <h2>Jakarta</h2>
+        <img src="jakarta1.jpeg" alt="Panorama Jakarta">
+        <p>Jakarta adalah ibu kota Indonesia yang merupakan pusat politik, ekonomi, dan budaya negara. Sebagai kota metropolitan terbesar di Asia Tenggara, Jakarta menawarkan kombinasi unik antara modernitas dan sejarah. Dari gedung pencakar langit hingga peninggalan kolonial Belanda, Jakarta adalah tempat di mana masa lalu dan masa kini bertemu. Selain itu, kota ini juga memiliki berbagai tempat wisata populer seperti Monumen Nasional, Kota Tua, dan Taman Mini Indonesia Indah.</p>
+    </section>
+
+    <section id="destinasi">
+        <h2>Destinasi Populer</h2>
+        <div class="destinasi">
+            <h3>Monumen Nasional (Monas)</h3>
+            <img src="monas.jpeg" alt="Monumen Nasional">
+            <p>Monumen Nasional atau yang lebih dikenal dengan Monas, adalah ikon Jakarta yang melambangkan perjuangan rakyat Indonesia untuk meraih kemerdekaan. Monumen ini memiliki tinggi 132 meter dan di puncaknya terdapat api emas yang melambangkan semangat perjuangan bangsa. Dari puncak Monas, pengunjung dapat menikmati pemandangan Jakarta yang luas.</p>
+        </div>
+        <div class="destinasi">
+    <h3>Ancol</h3>
+    <img src="ancol.jpeg" alt="Ancol">
+    <p>Ancol adalah kawasan wisata terpadu di Jakarta yang menawarkan berbagai atraksi menarik, seperti Dunia Fantasi, Sea World, dan Atlantis Water Adventure. Tempat ini cocok untuk keluarga yang ingin menghabiskan waktu dengan berbagai aktivitas hiburan dan menikmati suasana pantai di Jakarta.</p>
+</div>
+    </section>
+
+    <section id="peta">
+        <h2>Peta Interaktif</h2>
+        <input id="searchInput" type="text" placeholder="Cari tempat di Jakarta..." style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        <div id="map">
+          </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Wisata Jakarta</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script>
+        const map = L.map('map').setView([-6.2088, 106.8456], 10); // Coordinates for Jakarta
+
+        const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        const geocoder = L.Control.geocoder({
+            defaultMarkGeocode: false
+        })
+        .on('markgeocode', function(e) {
+            const latlng = e.geocode.center;
+            L.marker(latlng).addTo(map)
+                .bindPopup(e.geocode.name)
+                .openPopup();
+            map.setView(latlng, 15);
+        })
+        .addTo(map);
+
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = searchInput.value;
+                if (query) {
+                    geocoder.geocode(query, function(results) {
+                        if (results.length > 0) {
+                            geocoder.fire('markgeocode', { geocode: results[0] });
+                        } else {
+                            alert('Tempat tidak ditemukan.');
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

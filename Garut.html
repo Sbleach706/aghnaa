@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wisata Garut</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .banner {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+
+        header {
+            background: #000000;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+        }
+
+        nav {
+            margin: 20px 0;
+            background: #333333;
+            border-radius: 5px;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #ffffff;
+            padding: 8px 15px;
+            transition: background 0.3s, color 0.3s;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            background: #555555;
+            color: white;
+        }
+
+        section {
+            margin: 20px auto;
+            padding: 20px;
+            background: #f0f0f0;
+            border: 1px solid #cccccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+        }
+
+        section h2 {
+            margin-bottom: 15px;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 5px;
+            color: #000000;
+        }
+
+        section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 10px 0;
+            transition: transform 0.3s;
+        }
+
+        section img:hover {
+            transform: scale(1.05);
+        }
+
+        .destinasi {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background: #000000;
+            color: #ffffff;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        #map {
+            height: 450px;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Wisata Garut</h1>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#tentang">Tentang Garut</a></li>
+            <li><a href="#destinasi">Destinasi Populer</a></li>
+            <li><a href="#peta">Peta Interaktif</a></li>
+        </ul>
+    </nav>
+
+    <div class="banner">
+        <img src="garut1.jpeg" alt="Banner Wisata Garut"> <!-- Ganti dengan gambar banner Garut -->
+    </div>
+
+    <section id="tentang">
+        <h2>Garut</h2>
+        <img src="garut.jpeg" alt="Panorama Garut">
+        <p>Garut adalah kota di Jawa Barat yang terkenal dengan keindahan alamnya, seperti pegunungan, air terjun, dan perkebunan teh. Tempat wisata terkenal di Garut antara lain Gunung Papandayan, Sabda Alam Waterpark, dan Pantai Santolo. Garut juga dikenal dengan oleh-oleh khasnya yaitu dodol Garut, yang menjadi primadona oleh-oleh wisatawan.</p>
+    </section>
+
+    <section id="destinasi">
+        <h2>Destinasi Populer</h2>
+        <div class="destinasi">
+            <h3>Gunung Papandayan</h3>
+            <img src="papan.jpeg" alt="Gunung Papandayan">
+            <p>Gunung Papandayan adalah salah satu destinasi favorit di Garut yang menawarkan pemandangan kawah yang menakjubkan serta jalur pendakian yang menantang. Terdapat juga area hutan mati yang memberikan kesan mistis, serta padang bunga edelweiss yang menjadi daya tarik utama bagi para pendaki.</p>
+        </div>
+        <div class="destinasi">
+            <h3>Sabda Alam Waterpark</h3>
+            <img src="waterpark.jpeg" alt="Sabda Alam Waterpark">
+            <p>Sabda Alam Waterpark adalah taman rekreasi air yang cocok untuk keluarga. Terletak di Cipanas, Garut, tempat ini menawarkan berbagai wahana air seperti kolam arus, seluncuran, dan area bermain anak. Pengunjung juga dapat menikmati pemandian air panas alami yang berasal dari mata air pegunungan. Selain bermain air, terdapat berbagai fasilitas rekreasi lain yang membuat Sabda Alam Waterpark menjadi destinasi populer di Garut.</p>
+        </div>
+    </section>
+
+    <section id="peta">
+        <h2>Peta Interaktif</h2>
+        <input id="searchInput" type="text" placeholder="Cari tempat di Garut..." style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        <div id="map"></div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Wisata Garut</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script>
+        const map = L.map('map').setView([-7.202154, 107.886448], 10); // Coordinates for Garut
+
+        const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        const geocoder = L.Control.geocoder({
+            defaultMarkGeocode: false
+        })
+        .on('markgeocode', function(e) {
+            const latlng = e.geocode.center;
+            L.marker(latlng).addTo(map)
+                .bindPopup(e.geocode.name)
+                .openPopup();
+            map.setView(latlng, 15);
+        })
+        .addTo(map);
+
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = searchInput.value;
+                if (query) {
+                    geocoder.geocode(query, function(results) {
+                        if (results.length > 0) {
+                            geocoder.fire('markgeocode', { geocode: results[0] });
+                        } else {
+                            alert('Tempat tidak ditemukan.');
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

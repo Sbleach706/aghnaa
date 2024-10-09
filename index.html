@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Indonesia - Destinasi Wisata & Budaya</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 400px; }
+        .modal-content {
+            text-align: center;
+        }
+    </style>
+    <style>
+    .gallery-image {
+        height: 250px; /* Atur tinggi gambar */
+        overflow: hidden;
+    }
+
+    .gallery-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Menjaga proporsi gambar dan mengisi ruang */
+    }
+</style>
+<!-- Tambahkan CSS tambahan untuk Modal -->
+<style>
+    .gallery-image {
+        height: 250px; /* Atur tinggi gambar */
+        overflow: hidden;
+        cursor: pointer; /* Tunjukkan bahwa elemen dapat diklik */
+    }
+
+    .gallery-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Modal Styles */
+    .modal {
+        display: none; /* Sembunyikan modal secara default */
+        position: fixed;
+        z-index: 9999;
+        padding-top: 100px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+    }
+
+    .caption {
+        margin: 15px auto;
+        text-align: center;
+        color: #ccc;
+        width: 80%;
+    }
+
+    .close {
+        position: absolute;
+        top: 50px;
+        right: 50px;
+        color: white;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar navbar-expand-lg navbar-light bg-light py-3 shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="wanders.png" alt="WanderSphere Logo" style="height: 60px; margin-right: 10px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link active" href="#destinations">Destinasi</a></li>
+                <li class="nav-item"><a class="nav-link" href="#testimonials">Testimoni</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#gallery">Galeri Wisata</a></li>
+            </ul>
+            <form class="d-flex ms-3" id="searchForm">
+                <input class="form-control me-2" type="search" id="searchInput" placeholder="Cari Destinasi..." aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">Cari</button>
+            </form>
+        </div>
+    </div>
+</header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container text-center hero-content">
+            <h1 class="display-4" data-aos="fade-down"><b>WanderSphere</b></h1>
+            <p style="text-shadow: 3px 3px 5px black; font-size: 20px;" class="lead text-light" data-aos="fade-up" data-aos-delay="200">Jelajahi kekayaan budaya, wisata alam, dan destinasi menakjubkan di Indonesia.</p>
+            <a href="#destinations" class="btn btn-primary btn-lg" data-aos="fade-up" data-aos-delay="400">Jelajahi Sekarang</a>
+        </div>
+    </section>
+
+    <!-- Search Map Section -->
+    <div class="container my-4">
+        <h2>Cari Destinasi di Peta</h2>
+        <form id="mapSearchForm">
+            <input type="text" id="mapSearchInput" class="form-control" placeholder="Cari Destinasi..." aria-label="Search Map">
+            <button type="submit" class="btn btn-primary mt-2">Cari</button>
+        </form>
+    </div>
+
+    <!-- Peta -->
+    <div id="map"></div>
+
+    <!-- Destinasi Section -->
+<section id="destinations" class="py-5">
+    <div class="container text-center">
+        <h2 class="mb-5" data-aos="fade-right">Destinasi Terpopuler</h2>
+        <div class="row" id="destinationCards">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <a href="Bali.html" class="destination-link">
+                    <div class="card destination-card">
+                        <img src="bali1.jpeg" class="card-img-top" alt="Bali">
+                        <div class="card-body">
+                            <h5 class="card-title">Bali</h5>
+                            <p class="card-text">Pulau dewata yang terkenal dengan pantai dan budayanya.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <a href="Raja.html" class="destination-link">
+                    <div class="card destination-card">
+                        <img src="ampat.jpeg" class="card-img-top" alt="Raja Ampat">
+                        <div class="card-body">
+                            <h5 class="card-title">Raja Ampat</h5>
+                            <p class="card-text">Surga bawah laut dengan keindahan alam yang menakjubkan.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <a href="Yogya.html" class="destination-link">
+                    <div class="card destination-card">
+                        <img src="yogya.jpeg" class="card-img-top" alt="Yogyakarta">
+                        <div class="card-body">
+                            <h5 class="card-title">Yogyakarta</h5>
+                            <p class="card-text">Kota budaya yang kaya akan sejarah dan seni.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+                <a href="Pangandaran.html" class="destination-link">
+                    <div class="card destination-card">
+                        <img src="pangandaran.jpeg" class="card-img-top" alt="Pangandaran">
+                        <div class="card-body">
+                            <h5 class="card-title">Pangandaran</h5>
+                            <p class="card-text">Pantai yang indah dengan pesona alam dan aktivitas menarik.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
+    <a href="NusaPenida.html" class="destination-link">
+        <div class="card destination-card">
+            <img src="penida1.jpeg" class="card-img-top" alt="Nusa Penida">
+            <div class="card-body">
+                <h5 class="card-title">Nusa Penida</h5>
+                <p class="card-text">Pulau indah dengan pantai menakjubkan dan pemandangan alam yang memukau.</p>
+            </div>
+        </div>
+    </a>
+</div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="600">
+                <a href="Jakarta.html" class="destination-link">
+                    <div class="card destination-card">
+                        <img src="jakarta.jpeg" class="card-img-top" alt="Jakarta">
+                        <div class="card-body">
+                            <h5 class="card-title">Jakarta</h5>
+                            <p class="card-text">Ibukota Indonesia yang kaya akan budaya dan kehidupan kota.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Modifikasi Daftar Destinasi Baru -->
+<div class="col-md-4" data-aos="fade-up" data-aos-delay="700">
+    <a href="Garut.html" class="destination-link">
+        <div class="card destination-card">
+            <img src="garut1.jpeg" class="card-img-top" alt="Garut">
+            <div class="card-body">
+                <h5 class="card-title">Garut</h5>
+                <p class="card-text">Kota yang terkenal dengan pesona alam, pegunungan, dan kuliner khasnya.</p>
+            </div>
+        </div>
+    </a>
+</div>
+<div class="col-md-4" data-aos="fade-up" data-aos-delay="800">
+    <a href="Medan.html" class="destination-link">
+        <div class="card destination-card">
+            <img src="medan1.jpeg" class="card-img-top" alt="Medan">
+            <div class="card-body">
+                <h5 class="card-title">Medan</h5>
+                <p class="card-text">Kota terbesar di Sumatra yang kaya akan budaya dan wisata kuliner.</p>
+            </div>
+        </div>
+    </a>
+</div>
+<div class="col-md-4" data-aos="fade-up" data-aos-delay="900">
+    <a href="Padang.html" class="destination-link">
+        <div class="card destination-card">
+            <img src="padang.jpeg" class="card-img-top" alt="Padang">
+            <div class="card-body">
+                <h5 class="card-title">Padang</h5>
+                <p class="card-text">Dikenal dengan keindahan pantai dan masakan Minangnya.</p>
+            </div>
+        </div>
+    </a>
+</div>
+<div class="col-md-4" data-aos="fade-up" data-aos-delay="1000">
+    <a href="LabuanBajo.html" class="destination-link">
+        <div class="card destination-card">
+            <img src="labuan.jpeg" class="card-img-top" alt="Labuan Bajo">
+            <div class="card-body">
+                <h5 class="card-title">Labuan Bajo</h5>
+                <p class="card-text">Surga tersembunyi dengan pemandangan laut yang menakjubkan dan budaya lokal yang kaya.</p>
+            </div>
+        </div>
+    </a>
+</div>
+<div class="col-md-4" data-aos="fade-up" data-aos-delay="1100">
+    <a href="Magelang.html" class="destination-link">
+        <div class="card destination-card">
+            <img src="magelang1.jpeg" class="card-img-top" alt="Magelang">
+            <div class="card-body">
+                <h5 class="card-title">Magelang</h5>
+                <p class="card-text">Kota yang dikenal dengan Candi Borobudur dan pemandangan alam yang indah.</p>
+            </div>
+        </div>
+    </a>
+</div>
+<div class="col-md-4" data-aos="fade-up" data-aos-delay="1200">
+    <a href="Lombok.html" class="destination-link">
+        <div class="card destination-card">
+            <img src="lombok.jpeg" class="card-img-top" alt="Lombok">
+            <div class="card-body">
+                <h5 class="card-title">Lombok</h5>
+                <p class="card-text">Pulau yang dikenal dengan pantai indah, Gunung Rinjani, dan budaya Sasak.</p>
+            </div>
+        </div>
+    </a>
+</div>
+        </div>
+    </div>
+</section>
+
+<!-- Galeri Wisata Section -->
+<section id="gallery" class="py-5 bg-light">
+    <div class="container text-center">
+        <h2 class="mb-5" data-aos="fade-right">Galeri Wisata</h2>
+        <div class="row">
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                <div class="card">
+                    <div class="gallery-image" onclick="openModal(this)">
+                        <img src="borobudur.jpeg" class="card-img-top" alt="Candi Brobudur.">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Candi Brobudur.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                <div class="card">
+                    <div class="gallery-image" onclick="openModal(this)">
+                        <img src="pram.jpeg" class="card-img-top" alt="Candi Prambanan.">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Candi Prambanan.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+                <div class="card">
+                    <div class="gallery-image" onclick="openModal(this)">
+                        <img src="ubud.jpeg" class="card-img-top" alt="Ubud.">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Ubud.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="400">
+                <div class="card">
+                    <div class="gallery-image" onclick="openModal(this)">
+                        <img src="bali.jpeg" class="card-img-top" alt="Bali.">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Bali.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="500">
+                <div class="card">
+                    <div class="gallery-image" onclick="openModal(this)">
+                        <img src="canyon.jpeg" class="card-img-top" alt="Green Canyon.">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Green Canyon.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="500">
+                <div class="card">
+                    <div class="gallery-image" onclick="openModal(this)">
+                        <img src="penida1.jpeg" class="card-img-top" alt="Nusa Penida.">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Nusa Penida.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="500">
+                <div class="card">
+                    <div class="gallery-image" onclick="openModal(this)">
+                        <img src="lot.jpeg" class="card-img-top" alt="Tanah Lot.">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Tanah Lot.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="500">
+                <div class="card">
+                    <div class="gallery-image" onclick="openModal(this)">
+                        <img src="wayag.jpeg" class="card-img-top" alt="Pulau Wayag.">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Pulau Wayag.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="500">
+                <div class="card">
+                    <div class="gallery-image" onclick="openModal(this)">
+                        <img src="pram.jpeg" class="card-img-top" alt="Candi Prambanan.">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Candi Prambanan.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="500">
+                <div class="card">
+                    <div class="gallery-image" onclick="openModal(this)">
+                        <img src="yogya.jpeg" class="card-img-top" alt="Yogyakarta.">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Yogyakarta.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="500">
+                <div class="card">
+                    <div class="gallery-image" onclick="openModal(this)">
+                        <img src="pangandaran1.jpeg" class="card-img-top" alt="Pangandaran.">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Pangandaran.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="500">
+                <div class="card">
+                    <div class="gallery-image" onclick="openModal(this)">
+                        <img src="garut.jpeg" class="card-img-top" alt="Garut.">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Garut.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="500">
+                <div class="card">
+                    <div class="gallery-image" onclick="openModal(this)">
+                        <img src="medan1.jpeg" class="card-img-top" alt="Medan.">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Medan.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="500">
+                <div class="card">
+                    <div class="gallery-image" onclick="openModal(this)">
+                        <img src="padang1.jpeg" class="card-img-top" alt="Padang.">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Padang.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="600">
+                <div class="card">
+                    <div class="gallery-image" onclick="openModal(this)">
+                        <img src="ampat.jpeg" class="card-img-top" alt="Raja Ampat.">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Raja Ampat.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="imageModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+    <div id="caption" class="caption"></div>
+</div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4">
+        <div class="container text-center">
+            <p>&copy; 2024 Explore Indonesia. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        AOS.init();
+
+        // Tambahan data destinasi baru pada array destinations
+const destinations = [
+    { name: "Bali", coords: [-8.4095, 115.1889], description: "Pulau dewata yang terkenal dengan pantai dan budayanya." },
+    { name: "Raja Ampat", coords: [-0.2282, 130.4303], description: "Surga bawah laut dengan keindahan alam yang menakjubkan." },
+    { name: "Yogyakarta", coords: [-7.7956, 110.3695], description: "Kota budaya yang kaya akan sejarah dan seni." },
+    { name: "Pangandaran", coords: [-7.6884, 108.7037], description: "Pantai yang indah dengan pesona alam dan aktivitas menarik." },
+    { name: "Bandung", coords: [-6.9175, 107.6191], description: "Kota kreatif dengan banyak tempat wisata dan kuliner." },
+    { name: "Jakarta", coords: [-6.2088, 106.8456], description: "Ibukota Indonesia yang kaya akan budaya dan kehidupan kota." },
+    { name: "Garut", coords: [-7.2022, 107.8875], description: "Kota yang terkenal dengan pesona alam, pegunungan, dan kuliner khasnya." },
+    { name: "Medan", coords: [3.5952, 98.6722], description: "Kota terbesar di Sumatra yang kaya akan budaya dan wisata kuliner." },
+    { name: "Padang", coords: [-0.9471, 100.4172], description: "Dikenal dengan keindahan pantai dan masakan Minangnya." },
+    { name: "Labuan Bajo", 
+    coords: [-8.5243, 119.8890], // Update the coordinates if necessary
+    description: "Surga tersembunyi dengan pemandangan laut yang menakjubkan dan budaya lokal yang kaya." },
+    { name: "Magelang", coords: [-7.4706, 110.2177], description: "Kota yang dikenal dengan Candi Borobudur dan pemandangan alam yang indah." },
+    { name: "Lombok", coords: [-8.6529, 116.3249], description: "Pulau yang dikenal dengan pantai indah, Gunung Rinjani, dan budaya Sasak." }
+];
+
+        // Initialize the map
+        const map = L.map('map').setView([-5.0, 115.0], 5);
+        
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        // Add markers for each destination
+        destinations.forEach(dest => {
+            const marker = L.marker(dest.coords).addTo(map);
+            marker.bindPopup(`<b>${dest.name}</b><br>${dest.description}`);
+        });
+
+        // Handle search functionality for the map
+        document.getElementById('mapSearchForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const query = document.getElementById('mapSearchInput').value.toLowerCase();
+            const found = destinations.find(dest => dest.name.toLowerCase() === query);
+
+            if (found) {
+                map.setView(found.coords, 10);
+                L.popup()
+                    .setLatLng(found.coords)
+                    .setContent(`<b>${found.name}</b><br>${found.description}`)
+                    .openOn(map);
+            } else {
+                alert('Destinasi tidak ditemukan!');
+            }
+        });
+
+        // Smooth Scroll for anchors
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Search functionality for destinations
+        document.getElementById('searchForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const destinationCards = document.querySelectorAll('.destination-card');
+
+            destinationCards.forEach(card => {
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                if (title.includes(query)) {
+                    card.parentElement.style.display = 'block';
+                } else {
+                    card.parentElement.style.display = 'none';
+                }
+            });
+        });
+
+        // Modal functions
+        function openModal(element) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const captionText = document.getElementById('caption');
+
+            modal.style.display = "block";
+            modalImg.src = element.querySelector('img').src;
+            captionText.innerHTML = element.querySelector('img').alt;
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = "none";
+        }
+    </script>
+</body>
+</html>
